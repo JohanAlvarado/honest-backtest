@@ -33,8 +33,9 @@ Polymarket up/down markets — every one looked great on paper and lost real mon
 ## Install
 
 ```bash
-pip install honest-backtest      # numpy is the only dependency
+pip install git+https://github.com/JohanAlvarado/honest-backtest.git   # numpy is the only dependency
 ```
+_(PyPI release pending — install from source meanwhile.)_
 
 ## Quick start
 
