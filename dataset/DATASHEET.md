@@ -82,7 +82,7 @@ edge is ~0 on this venue by construction.
 ## Reproduce the headline result
 
 ```bash
-pip install git+https://github.com/JohanAlvarado/honest-backtest.git
+pip install honest-backtest
 python -m honest_backtest.examples.no_overpriced open_dataset.sqlite
 # expect headline edge_real ~ 0 / negative (live anchor was -0.004)
 ```
