@@ -15,6 +15,7 @@ still optimistic and fills.py needs fixing before any new claim.
 from __future__ import annotations
 
 import json
+import os
 import sys
 
 from honest_backtest import Decision, Signal, evaluate

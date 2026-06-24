@@ -18,6 +18,19 @@ def test_run_signal_fires_once_per_slot():
     assert recs[0]["won"] is True
 
 
+def test_example_main_dispatch_has_no_import_bug():
+    # guards the example's CLI source dispatch (os.path.isdir / endswith) against
+    # NameError-class bugs like a missing `import os`. A bogus .sqlite path must
+    # reach the sqlite adapter and fail to OPEN the db — not blow up earlier.
+    import sqlite3
+
+    import pytest
+
+    from honest_backtest.examples.no_overpriced import main
+    with pytest.raises(sqlite3.OperationalError):
+        main(["/tmp/__honest_backtest_nope__.sqlite"])
+
+
 def test_evaluate_returns_leaderboard_row():
     ctxs = [make_ctx([FIRES, HOLD], resolved_side="No"),
             make_ctx([FIRES, HOLD], resolved_side="Yes")]  # one win, one loss
