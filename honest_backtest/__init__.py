@@ -37,7 +37,7 @@ from .metrics import bootstrap_ci, leaderboard_row
 from .settle import fee_per_share, won_buy
 from .signal import Decision, Signal, SlotCtx, SlotMeta
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 __all__ = [
     "Signal", "SlotCtx", "SlotMeta", "Decision",

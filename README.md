@@ -55,13 +55,21 @@ print(row["headline_edge_real"], row["ghost_gap"])
 ```
 
 Bring your own `SlotCtx` stream (build them from your data with
-`SlotCtx.from_rows`), or use the bundled SQLite adapter for the
-[open Polymarket up/down dataset](#dataset):
+`SlotCtx.from_rows`), or load the [open Polymarket up/down dataset](#dataset)
+straight from the Hub parquet (no 2 GB download):
 
-```python
-from honest_backtest.adapters.sqlite_pm import load_corpus
-ctxs = load_corpus("open_dataset.sqlite", coins=("btc",), durations=("5m",))
+```bash
+pip install "honest-backtest[parquet]"
+huggingface-cli download kinzikdza/polymarket-updown-microstructure \
+    --repo-type dataset --local-dir pm_data
 ```
+```python
+from honest_backtest.adapters.parquet_pm import load_corpus
+ctxs = load_corpus("pm_data/parquet", coins=("btc",), durations=("5m",))
+```
+
+A SQLite adapter (`adapters.sqlite_pm.load_corpus`, stdlib-only) is also there if
+you have the data as a `.sqlite` file.
 
 ## The calibration anchor
 
@@ -71,7 +79,7 @@ A naive paper backtest of the same rule showed *+0.07*. The honest harness must
 reproduce ~0/negative here:
 
 ```bash
-python -m honest_backtest.examples.no_overpriced open_dataset.sqlite
+python -m honest_backtest.examples.no_overpriced pm_data/parquet   # or open_dataset.sqlite
 ```
 
 If it prints a strongly positive `edge_real`, the fill model has drifted

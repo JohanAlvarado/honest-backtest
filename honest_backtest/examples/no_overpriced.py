@@ -50,10 +50,16 @@ def main(argv=None):
     argv = argv or sys.argv[1:]
     if not argv:
         print("usage: python -m honest_backtest.examples.no_overpriced "
-              "<open_dataset.sqlite>")
+              "<open_dataset.sqlite | parquet_dir/>")
         return 2
-    from honest_backtest.adapters.sqlite_pm import load_corpus
-    ctxs = list(load_corpus(argv[0], coins=NoOverpriced.coins,
+    src = argv[0]
+    # dispatch by source: a .sqlite file → sqlite adapter; a directory (the
+    # dataset's parquet/ folder) → parquet adapter.
+    if os.path.isdir(src) or src.endswith(".parquet"):
+        from honest_backtest.adapters.parquet_pm import load_corpus
+    else:
+        from honest_backtest.adapters.sqlite_pm import load_corpus
+    ctxs = list(load_corpus(src, coins=NoOverpriced.coins,
                             durations=NoOverpriced.durations))
     row = evaluate(NoOverpriced(), ctxs)
     print(json.dumps(row, indent=2))

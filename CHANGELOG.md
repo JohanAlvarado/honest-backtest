@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.0
+
+- Parquet adapter (`adapters.parquet_pm.load_corpus`): reproduce results from the
+  ~190 MB parquet release on Hugging Face, no 2 GB SQLite needed. Optional extra
+  `pip install "honest-backtest[parquet]"` (pandas + pyarrow).
+- The `no_overpriced` example and `dataset/load_example.py` now auto-dispatch on
+  the source: a `.sqlite` file uses the sqlite adapter, a directory uses parquet.
+
 ## 0.1.0
 
 Initial public release.

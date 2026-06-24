@@ -17,8 +17,8 @@ are reproducible and so others can study adverse selection on a real venue.
 
 ## Composition
 
-Three tables (SQLite + parquet), schema is exactly what the `honest_backtest`
-SQLite adapter reads:
+Three tables, published here as **parquet** (`parquet/{slots,book_snapshots,pm_trades}.parquet`)
+— the same schema the `honest_backtest` adapters read:
 
 | table | one row per | key fields |
 |---|---|---|
@@ -82,8 +82,10 @@ edge is ~0 on this venue by construction.
 ## Reproduce the headline result
 
 ```bash
-pip install honest-backtest
-python -m honest_backtest.examples.no_overpriced open_dataset.sqlite
+pip install "honest-backtest[parquet]"
+huggingface-cli download kinzikdza/polymarket-updown-microstructure \
+    --repo-type dataset --local-dir pm_data
+python -m honest_backtest.examples.no_overpriced pm_data/parquet
 # expect headline edge_real ~ 0 / negative (live anchor was -0.004)
 ```
 
